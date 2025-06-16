@@ -57,6 +57,11 @@ def main():
             texts = [args.text_prompt]
             args.num_samples = 1
             hint = None
+    if args.control_path:
+        loaded = np.load(args.control_path, allow_pickle=True).item()
+        hints  = loaded['pos'][None, ...]          # (1, T, 22*3)
+        args.num_samples = 1
+        texts  = [''] if args.cond_mode == 'only_spatial' else [args.text_prompt]
 
     assert args.num_samples <= args.batch_size, \
         f'Please either increase batch_size({args.batch_size}) or reduce num_samples({args.num_samples})'

@@ -165,6 +165,7 @@ def add_generate_options(parser):
                        help="generation mode: both_text_spatial, only_text, only_spatial. Other words will be used as text prompt.")
     group.add_argument("--text_prompt", default='predefined', type=str,
                        help="A text prompt to be generated. If empty, will take text prompts from dataset.")
+    group.add_argument('--control_path', type=str, default='', help='path to npy with spatial control')
 
 
 def add_edit_options(parser):
