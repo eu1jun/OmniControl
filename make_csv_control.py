@@ -24,8 +24,15 @@ def make_control(csv_path, motion_len=196, pelvis_joint=0, pelvis_height=1.0,
                  out_path='control.npy'):
     pts = load_csv(csv_path)                 # (N,3)
     pts = resample(pts, motion_len)          # (T,3)
+    # ─── X/Z swap ───
+    # pts[:,0] ← old Z, pts[:,2] ← old X
+    pts = pts[:, [2, 1, 0]]                  # now each row is [Z, Y, X]
+    
     # 이미 CSV에서 높이를 올려둬서 주석
     # pts[:,1] += pelvis_height              
+    
+    pts /= 2.0
+    pts[:,1] /= 2.0
 
     mean = np.load(mean_path)
     std  = np.load(std_path)
